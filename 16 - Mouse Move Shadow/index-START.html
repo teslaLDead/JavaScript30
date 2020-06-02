@@ -7,7 +7,7 @@
 <body>
 
   <div class="hero">
-    <h1 contenteditable>🔥WOAH!</h1>
+    <h1 contenteditable>🔥🔥 💕WOAH!</h1>
   </div>
 
   <style>
@@ -35,6 +35,38 @@
   </style>
 
 <script>
+  const hero=document.querySelector('.hero');
+  const text=document.querySelector('h1');
+  const walk=50;//100px max walk 
+  function shadow(e) {
+    const { offsetWidth: width, offsetHeight:height } = hero;
+
+    // this is for the mouse x,y coordinates
+    let { offsetX:x, offsetY:y } = e;
+
+
+    //this is to counter the event bubbling?? 
+    // so originally we are adding the event listener on our parent element. but inside it is the text element. so when we move
+    // our mouse around the text element we get the x and y values according to that. i.e the x,y:{0,0} when the mouse is 
+    // inside the text element. So to counter that we add to x and y the offset values of the target(the child element).
+    if (this!=e.target){
+      x+=e.target.offsetLeft;
+      y+=e.target.offsetTop;
+    }
+
+    //this is to set the x and y pixel values of the shadow. The walk defines the perimeter around which the show will be contained inside.
+    const xWalk=Math.round((x/width*walk)-walk/2);
+    const yWalk=Math.round((y/height*walk)-walk/2);
+    
+    text.style.textShadow=`
+    ${xWalk}px ${yWalk}px 0 red,
+    ${xWalk*-1}px ${yWalk}px 0 green,
+    ${xWalk}px ${yWalk*-1}px 0 blue
+    `;
+
+  }
+
+  hero.addEventListener('mousemove',shadow)
 </script>
 </body>
 </html>
